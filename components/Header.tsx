@@ -7,7 +7,7 @@ export const Header = () => {
 
   const router = useRouter()
   const { data: session } = useSession()
-  console.log(session)
+  // console.log(session)
   return (
     <div className='bg-gray-900 w-[100%] h-[50px] p-2 flex justify-end'>
       {
