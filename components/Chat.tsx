@@ -1,6 +1,6 @@
 import { CoreMessage } from "ai";
 import { useRef, useState } from "react";
-import { continueConversation } from "../actions";
+import { continueConversation } from "../app/actions";
 import { readStreamableValue } from "ai/rsc";
 
 export const Chat = () => {
