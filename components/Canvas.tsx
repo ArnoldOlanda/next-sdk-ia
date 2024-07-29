@@ -1,65 +1,9 @@
-import { Editor } from '@monaco-editor/react';
+'use client';
 import React, { useRef, useEffect, useState, MouseEvent, WheelEvent } from 'react';
-
-interface FileNode {
-  name: string;
-  path: string;
-  children: { name: string }[];
-}
-
-const fileTree: FileNode[] = [
-  {
-    "name": "RimanakuyInterface",
-    "path": ".",
-    "children": [
-      { "name": "vite.config.js" },
-      { "name": ".gitignore" },
-      { "name": ".eslintrc" },
-      { "name": "README.md" },
-      { "name": "index.html" }
-    ]
-  },
-  {
-    "name": "public",
-    "path": "public",
-    "children": [
-      { "name": "vite.svg" },
-      { "name": "_redirects" },
-      { "name": "prueba.xlsx" },
-      { "name": "loaderio-ad27ec2fa47edb3a4f25434a1db097e7.txt" }
-    ]
-  },
-  {
-    "name": "src",
-    "path": "src",
-    "children": [
-      { "name": "theme.js" },
-      { "name": "App.css" },
-      { "name": "App.jsx" },
-      { "name": "index.css" },
-      { "name": "main.jsx" }
-    ]
-  },
-  {
-    "name": "components",
-    "path": "src/components",
-    "children": [
-      { "name": "TextBoxTranslate.jsx" },
-      { "name": "BoxLanguages.jsx" },
-      { "name": "Language.jsx" },
-      { "name": "Spinner.jsx" }
-    ]
-  },
-  {
-    "name": "services",
-    "path": "src/services",
-    "children": [
-      { "name": "config.js" },
-      { "name": "model.service.js" }
-    ]
-  }
-];
-
+import { Editor } from '@monaco-editor/react';
+import * as monaco from 'monaco-editor';
+import { fileTree } from '@/data';
+import { FileNode, NodeEditor } from '@/interfaces';
 
 const colors = [
   "#DBD2EF",
@@ -68,7 +12,11 @@ const colors = [
   "#E0E0E0"
 ]
 
-
+/**
+ * Canvas component for displaying regions and editors.
+ * 
+ * @returns The Canvas component.
+ */
 export const Canvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [scale, setScale] = useState(1);
@@ -91,7 +39,7 @@ export const Canvas = () => {
   const heightFile = 200;
   const widthFile = 360;
 
-  const [editors, setEditors] = useState<{ name: string; x: number; y: number; content: string; editor?: monaco.editor.IStandaloneCodeEditor }[]>([]);
+  const [editors, setEditors] = useState<NodeEditor[]>([]);
 
   useEffect(() => {
     const initialEditors = generateEditorPositions(fileTree);
@@ -99,14 +47,14 @@ export const Canvas = () => {
   }, []);
 
   const generateEditorPositions = (nodes: FileNode[]) => {
-    const positions = [];
+    const positions:{name: string,x:number,y:number,content:string}[] = [];
     let yOffset = 0;
 
     nodes.forEach((node) => {
       if (node.children && node.children.length > 0) {
         node.children.forEach((child, index) => {
           const x = paddingX + (index * (widthFile + 30));
-          const y = yOffset + 30;
+          const y = yOffset + 90;
           positions.push({ name: child.name, x, y, content: "// " + child.name });
         });
         yOffset += 278;
@@ -122,7 +70,7 @@ export const Canvas = () => {
     nodes.forEach((node, indexRegion) => {
       if (node.children && node.children.length > 0) {
         if (canvas) {
-          const regionWidth = canvas.width;
+          const regionWidth = canvas.width / scale;
           const regionHeight = 278;
 
           ctx.fillStyle = colors[indexRegion % colors.length];
@@ -139,7 +87,7 @@ export const Canvas = () => {
   };
 
   const handleWheel = (e: WheelEvent) => {
-    e.preventDefault();
+    // e.preventDefault();
     const scaleAmount = -e.deltaY * 0.001;
     setScale(prevScale => {
       const newScale = Math.min(Math.max(prevScale + scaleAmount, minScale), maxScale);
@@ -147,11 +95,16 @@ export const Canvas = () => {
     });
   };
 
+
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
     setDragStart({ x: e.clientX - translate.x, y: e.clientY - translate.y });
   };
 
+  /**
+   * This function is called when the mouse is moved.
+   * @param e MouseEvent
+   */
   const handleMouseMove = (e: MouseEvent) => {
     if (isDragging) {
       const newX = e.clientX - dragStart.x;
@@ -198,7 +151,7 @@ export const Canvas = () => {
         });
       }
     });
-  }, [scale]);
+  }, [scale,editors]);
 
   const handleReset = () => {
     setScale(1);
@@ -206,7 +159,7 @@ export const Canvas = () => {
   };
 
   const handleEditorDidMount = (editor: monaco.editor.IStandaloneCodeEditor, index: number) => {
-    const fontSize = 14 * scale;
+    const fontSize = 12 * scale;
     editor.updateOptions({
       fontSize,
       minimap: { enabled: false }
@@ -217,17 +170,18 @@ export const Canvas = () => {
   };
 
   return (
-    <div>
+    <div className='w-full h-[calc(100vh-50px)]'>
       <canvas
         ref={canvasRef}
-        width={window.innerWidth}
-        height={window.innerHeight}
+        //className='w-full h-[calc(100vh-50px)]'
+        width={window.innerWidth} 
+        height={window.innerHeight-50}
         onWheel={handleWheel}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        style={{ border: "1px solid black", cursor: isDragging ? "grabbing" : "grab" }}
+        style={{ border: "1px solid black", cursor: isDragging ? "grabbing" : "grab", position: "absolute" }}
       />
       <button
         onClick={handleReset}

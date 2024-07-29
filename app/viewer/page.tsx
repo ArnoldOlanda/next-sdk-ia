@@ -1,7 +1,10 @@
+import { Canvas } from '@/components/Canvas'
 import React from 'react'
 
 export default function Viewer() {
   return (
-    <div>View tree</div>
+    <div>
+      <Canvas />
+    </div>
   )
 }
