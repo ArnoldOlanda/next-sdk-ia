@@ -13,3 +13,9 @@ export interface NodeEditor {
   content: string;
   editor?: monaco.editor.IStandaloneCodeEditor;
 }
+
+export interface Message {
+  id: number
+  message: string
+  role: 'user' | 'assistant'
+}

@@ -1,4 +1,4 @@
-import { FileNode } from "@/interfaces";
+import { FileNode, Message } from "@/interfaces";
 
 export const fileTree: FileNode[] = [
     {
@@ -52,3 +52,161 @@ export const fileTree: FileNode[] = [
       ]
     }
   ];
+
+  export const messages: Message[] = [
+    {
+        id: 1,
+        message: 'Hello',
+        role: 'assistant'
+    },
+    {
+        id: 2,
+        message: 'How can I help you?',
+        role: 'assistant'
+    },
+    {
+        id: 3,
+        message: 'I need help with my order',
+        role: 'user'
+    },
+    {
+        id: 4,
+        message: 'Sure, I can help you with that',
+        role: 'assistant'
+    },
+    {
+        id: 5,
+        message: 'Thank you',
+        role: 'user'
+    },
+    {
+        id: 6,
+        message: 'You are welcome',
+        role: 'assistant'
+    },
+    {
+        id: 7,
+        message: 'Another question',
+        role: 'user'
+    },
+    {
+        id: 8,
+        message: 'Sure, ask me anything',
+        role: 'assistant'
+    },
+    {
+        id: 9,
+        message: 'Thank you',
+        role: 'user'
+    },
+    {
+        id: 10,
+        message: 'You are welcome',
+        role: 'assistant'
+    },
+    {
+        id: 11,
+        message: 'Another question',
+        role: 'user'
+    },
+    {
+        id: 12,
+        message: 'Sure, ask me anything',
+        role: 'assistant'
+    },
+    {
+        id: 13,
+        message: 'Thank you',
+        role: 'user'
+    },
+    {
+        id: 14,
+        message: 'You are welcome',
+        role: 'assistant'
+    },
+    {
+        id: 15,
+        message: 'Another question',
+        role: 'user'
+    },
+    {
+        id: 16,
+        message: 'Sure, ask me anything',
+        role: 'assistant'
+    },
+    {
+        id: 17,
+        message: 'Thank you',
+        role: 'user'
+    },
+    {
+        id: 18,
+        message: 'You are welcome',
+        role: 'assistant'
+    },
+    {
+        id: 19,
+        message: 'Another question',
+        role: 'user'
+    },
+    {
+        id: 20,
+        message: 'Sure, ask me anything',
+        role: 'assistant'
+    },
+    {
+        id: 21,
+        message: 'Thank you',
+        role: 'user'
+    },
+    {
+        id: 22,
+        message: 'You are welcome',
+        role: 'assistant'
+    },
+    {
+        id: 23,
+        message: 'Another question',
+        role: 'user'
+    },
+    {
+        id: 24,
+        message: 'Sure, ask me anything',
+        role: 'assistant'
+    },
+    {
+        id: 25,
+        message: 'Thank you',
+        role: 'user'
+    },
+    {
+        id: 26,
+        message: 'You are welcome',
+        role: 'assistant'
+    },
+    {
+        id: 27,
+        message: 'Another question',
+        role: 'user'
+    },
+    {
+        id: 28,
+        message: 'Sure, ask me anything',
+        role: 'assistant'
+    },
+    {
+        id: 29,
+        message: 'Thank you',
+        role: 'user'
+    },
+    {
+        id: 30,
+        message: 'You are welcome',
+        role: 'assistant'
+    },
+    {
+        id: 31,
+        message: 'Another question',
+        role: 'user'
+    },
+]
