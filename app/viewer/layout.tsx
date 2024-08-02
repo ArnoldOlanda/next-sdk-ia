@@ -6,8 +6,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
-        <Header/>
+    <div style={{height:'100vh',}}>
+        <Header />
         {children}
     </div>
   );

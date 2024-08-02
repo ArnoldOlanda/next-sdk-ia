@@ -4,13 +4,14 @@ import { Editor } from '@monaco-editor/react';
 import * as monaco from 'monaco-editor';
 import { fileTree } from '@/data';
 import { FileNode, NodeEditor } from '@/interfaces';
+import imageSrc from '../assets/your-image.png';
 
 const colors = [
   "#DBD2EF",
   "#AF97E0",
   "#BEE48D",
   "#E0E0E0"
-]
+];
 
 /**
  * Canvas component for displaying regions and editors.
@@ -23,8 +24,9 @@ export const Canvas = () => {
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [imagePattern, setImagePattern] = useState<CanvasPattern | null>(null);
 
-  const paddingX = 40;
+  let paddingX = 40;
   const paddingY = 30;
 
   const fixedLimits = {
@@ -35,29 +37,66 @@ export const Canvas = () => {
   };
 
   const minScale = 0.5;
-  const maxScale = 3;
+  const maxScale = 2;
+
+  const regionHeight = 278;
+
   const heightFile = 200;
   const widthFile = 360;
 
   const [editors, setEditors] = useState<NodeEditor[]>([]);
+  const [regions, setRegions] = useState<{ name: string, x: number, y: number }[]>([]);
 
   useEffect(() => {
-    const initialEditors = generateEditorPositions(fileTree);
-    setEditors(initialEditors);
+    const loadImage = () => {
+      const img = new Image();
+      img.src = '/background.png';
+      img.onload = () => {
+        const canvas = canvasRef.current;
+        if (canvas) {
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            const pattern = ctx.createPattern(img, 'repeat');
+            setImagePattern(pattern);
+          }
+        }
+      };
+    };
+    loadImage();
   }, []);
 
   const generateEditorPositions = (nodes: FileNode[]) => {
-    const positions:{name: string,x:number,y:number,content:string}[] = [];
-    let yOffset = 0;
+    const positions: { name: string, x: number, y: number, content: string, isFolder: boolean, folders?: string[] }[] = [];
+    let yOffset = 0; // size of the header
+    
+
+    let factor = scale;
+    let initial = ((regionHeight * factor) - (heightFile * factor)) / 2;
 
     nodes.forEach((node) => {
+      let xInitial = 0
+
+      if (node.folders.length >0 ) {
+        positions.push({
+          name: node.name,
+          x: paddingX,
+          y: yOffset + initial,
+          content: '',
+          isFolder: true,
+          folders: node.folders
+        });
+        xInitial= widthFile + 30
+        
+      }
+
       if (node.children && node.children.length > 0) {
         node.children.forEach((child, index) => {
-          const x = paddingX + (index * (widthFile + 30));
-          const y = yOffset + 90;
-          positions.push({ name: child.name, x, y, content: "// " + child.name });
+          const x = xInitial + paddingX + (index * (widthFile + 30));
+          const y = yOffset + initial;
+          positions.push({ name: child.name, x, y, content: "// " + child.name, isFolder: false });
         });
-        yOffset += 278;
+
+        yOffset += regionHeight * factor;
       }
     });
 
@@ -65,29 +104,43 @@ export const Canvas = () => {
   };
 
   const drawRegions = (ctx: CanvasRenderingContext2D, nodes: FileNode[], x: number, y: number) => {
+    const positions: { name: string, x: number, y: number }[] = [];
     const canvas = canvasRef.current;
 
     nodes.forEach((node, indexRegion) => {
       if (node.children && node.children.length > 0) {
         if (canvas) {
-          const regionWidth = canvas.width / scale;
+          const regionWidth = 10000;
           const regionHeight = 278;
 
+          /*if (imagePattern) {
+            ctx.fillStyle = imagePattern;
+          } else {
+            ctx.fillStyle = colors[indexRegion % colors.length];
+          }*/
           ctx.fillStyle = colors[indexRegion % colors.length];
+
           ctx.fillRect(x, y, regionWidth, regionHeight);
 
+          ctx.save();
+          ctx.translate(x + 20, y + regionHeight - 40);
+          ctx.rotate(-Math.PI / 2);
           ctx.fillStyle = "#000";
-          ctx.font = "16px Arial";
-          ctx.fillText(node.path, x + 10, y + 20);
+          ctx.font = "bold 16px Consolas";
+          ctx.fillText(node.path, 0, 0);
+          ctx.restore();
+
+          positions.push({ name: node.name, x, y})
 
           y += regionHeight;
         }
       }
     });
+
+    setRegions(positions)
   };
 
   const handleWheel = (e: WheelEvent) => {
-    // e.preventDefault();
     const scaleAmount = -e.deltaY * 0.001;
     setScale(prevScale => {
       const newScale = Math.min(Math.max(prevScale + scaleAmount, minScale), maxScale);
@@ -95,22 +148,17 @@ export const Canvas = () => {
     });
   };
 
-
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
     setDragStart({ x: e.clientX - translate.x, y: e.clientY - translate.y });
   };
 
-  /**
-   * This function is called when the mouse is moved.
-   * @param e MouseEvent
-   */
   const handleMouseMove = (e: MouseEvent) => {
     if (isDragging) {
       const newX = e.clientX - dragStart.x;
       const newY = e.clientY - dragStart.y;
 
-      const boundedX = Math.min(newX, fixedLimits.maxX);
+      const boundedX = Math.max(Math.min(newX, fixedLimits.maxX), (-2900 * (Math.pow(scale, 2.13))));
       const boundedY = Math.min(newY, fixedLimits.maxY);
 
       setTranslate({
@@ -124,35 +172,6 @@ export const Canvas = () => {
     setIsDragging(false);
   };
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const ctx = canvas.getContext("2d");
-      if (ctx) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.save();
-        ctx.translate(translate.x, translate.y);
-        ctx.scale(scale, scale);
-
-        drawRegions(ctx, fileTree, 0, 0);
-
-        ctx.restore();
-      }
-    }
-  }, [scale, translate]);
-
-  useEffect(() => {
-    editors.forEach((editor) => {
-      if (editor.editor) {
-        const fontSize = 14 * scale;
-        editor.editor.updateOptions({
-          fontSize,
-          minimap: { enabled: false }
-        });
-      }
-    });
-  }, [scale,editors]);
-
   const handleReset = () => {
     setScale(1);
     setTranslate({ x: 0, y: 0 });
@@ -161,6 +180,7 @@ export const Canvas = () => {
   const handleEditorDidMount = (editor: monaco.editor.IStandaloneCodeEditor, index: number) => {
     const fontSize = 12 * scale;
     editor.updateOptions({
+      zIndex: 1,
       fontSize,
       minimap: { enabled: false }
     });
@@ -169,20 +189,70 @@ export const Canvas = () => {
     setEditors(updatedEditors);
   };
 
+
+  const handleFolderClick = (x: number, y: number, name: string) => {
+    let region = regions.find(e=>e.name==name);
+    setTranslate({ x: 0, y: -region.y*scale});
+  };
+
+  useEffect(() => {
+    const initialEditors = generateEditorPositions(fileTree);
+    editors.forEach((editor) => {
+      if (editor.editor) {
+        const fontSize = 14 * scale;
+        editor.editor.updateOptions({
+          ...initialEditors,
+          fontSize,
+          minimap: { enabled: false }
+        });
+      }
+    });
+  }, [scale, editors]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+
+    if (canvas) {
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.save();
+        ctx.translate(translate.x, translate.y);
+        ctx.scale(scale, scale);
+        drawRegions(ctx, fileTree, 0, 0);
+        ctx.restore();
+      }
+    }
+  }, [scale, translate, imagePattern]);
+
+  useEffect(() => {
+    const initialEditors = generateEditorPositions(fileTree);
+    setEditors(initialEditors);
+  }, []);
+
   return (
-    <div className='w-full h-[calc(100vh-50px)]'>
+    <div style={{
+      flex:1,
+      height: '100%',
+      width: '100%',
+      maxHeight: '100%',
+      position: 'relative',
+      zIndex: 1,
+      overflow:'hidden'
+
+    }}>
       <canvas
         ref={canvasRef}
-        //className='w-full h-[calc(100vh-50px)]'
-        width={window.innerWidth} 
-        height={window.innerHeight-50}
+        width={window.innerWidth}
+        height={window.innerHeight - 50}
         onWheel={handleWheel}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        style={{ border: "1px solid black", cursor: isDragging ? "grabbing" : "grab", position: "absolute" }}
+        style={{ border: "1px solid black", cursor: isDragging ? "grabbing" : "grab", position: "absolute", zIndex: 2, }}
       />
+
       <button
         onClick={handleReset}
         style={{
@@ -194,38 +264,83 @@ export const Canvas = () => {
           color: '#fff',
           border: 'none',
           borderRadius: '5px',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          zIndex: 3
         }}
       >
         Reset Position
       </button>
+
       {editors.map((editor, index) => (
-        <div
-          key={index}
-          style={{
-            position: 'absolute',
-            left: (editor.x * scale + translate.x),
-            top: (editor.y * scale + translate.y),
-            width: widthFile * scale,
-            height: heightFile * scale,
-            transformOrigin: 'top left',
-            border: '1px solid black',
-            overflow: 'hidden'
-          }}
-        >
-          <Editor
-            height="100%"
-            width="100%"
-            defaultLanguage="javascript"
-            defaultValue={editor.content}
-            theme="vs-dark"
-            options={{
-              readOnly: false,
-              minimap: { enabled: false } // Desactiva el minimapa
+        editor.isFolder ? (
+          <div
+            key={index}
+            style={{
+              zIndex: 2,
+              position: 'absolute',
+              left: (editor.x * scale + translate.x),
+              top: (editor.y * scale + translate.y),
+              width: widthFile * scale,
+              height: heightFile * scale,
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'flex-start',
+              justifyContent: 'flex-start',
+              //border: '1px solid white',
+              overflow: 'hidden',
+              //backgroundColor: '#f0f0f0',
+              gap: 10,
+
             }}
-            onMount={(editorInstance) => handleEditorDidMount(editorInstance, index)}
-          />
-        </div>
+          >
+            {editor.folders?.map((folder, folderIndex) => (
+              <button
+                onClick={() => handleFolderClick(editor.x, editor.y, folder)}
+                key={folderIndex}
+                style={{
+                  width: 96 * scale,
+                  height: 96 * scale,
+                  fontSize: 14* scale,
+                  //margin: 5 * scale,
+                  backgroundColor: '#BFF976',
+                  color: '#000',
+                  borderRadius: '5px',
+                }}
+              >
+                {folder}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div
+            key={index}
+            style={{
+              zIndex: 2,
+              position: 'absolute',
+              left: (editor.x * scale + translate.x),
+              top: (editor.y * scale + translate.y),
+              width: widthFile * scale,
+              height: heightFile * scale,
+              transformOrigin: 'top left',
+              border: '1px solid black',
+              overflow: 'hidden'
+            }}
+          >
+            <Editor
+              className='monaco-editor'
+              height="100%"
+              width="100%"
+              defaultLanguage="javascript"
+              defaultValue={editor.content}
+              theme="vs-dark"
+              options={{
+                readOnly: false,
+                minimap: { enabled: false }
+              }}
+              onMount={(editorInstance) => handleEditorDidMount(editorInstance, index)}
+            />
+          </div>
+        )
       ))}
     </div>
   );
