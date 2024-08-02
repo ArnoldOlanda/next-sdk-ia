@@ -9,7 +9,7 @@ export const Header = () => {
   const { data: session } = useSession()
   // console.log(session)
   return (
-    <div className='bg-gray-900 w-[100%] h-[50px] p-2 flex justify-end'>
+    <div className='bg-gray-900 w-[100%] h-[50px] p-2 flex justify-end z-10 flex-0'>
       {
         session?.user 
           ?(
