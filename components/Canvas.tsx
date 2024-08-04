@@ -2,7 +2,7 @@
 import React, { useRef, useEffect, useState, MouseEvent, WheelEvent } from 'react';
 import { Editor } from '@monaco-editor/react';
 import * as monaco from 'monaco-editor';
-import { fileTree } from '@/data';
+import { tree } from '@/data';
 import { FileNode, NodeEditor } from '@/interfaces';
 import imageSrc from '../assets/your-image.png';
 
@@ -18,7 +18,7 @@ const colors = [
  * 
  * @returns The Canvas component.
  */
-export const Canvas = () => {
+export const Canvas = ({tree}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [scale, setScale] = useState(1);
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
@@ -123,8 +123,8 @@ export const Canvas = () => {
           ctx.fillRect(x, y, regionWidth, regionHeight);
 
           ctx.save();
-          ctx.translate(x + 20, y + regionHeight - 40);
-          ctx.rotate(-Math.PI / 2);
+          ctx.translate(x + 20, y + 25 );
+          //ctx.rotate(-Math.PI / 2);
           ctx.fillStyle = "#000";
           ctx.font = "bold 16px Consolas";
           ctx.fillText(node.path, 0, 0);
@@ -196,7 +196,7 @@ export const Canvas = () => {
   };
 
   useEffect(() => {
-    const initialEditors = generateEditorPositions(fileTree);
+    const initialEditors = generateEditorPositions(tree);
     editors.forEach((editor) => {
       if (editor.editor) {
         const fontSize = 14 * scale;
@@ -208,7 +208,6 @@ export const Canvas = () => {
       }
     });
   }, [scale, editors]);
-
   useEffect(() => {
     const canvas = canvasRef.current;
 
@@ -219,14 +218,14 @@ export const Canvas = () => {
         ctx.save();
         ctx.translate(translate.x, translate.y);
         ctx.scale(scale, scale);
-        drawRegions(ctx, fileTree, 0, 0);
+        drawRegions(ctx, tree, 0, 0);
         ctx.restore();
       }
     }
-  }, [scale, translate, imagePattern]);
+  }, [scale, translate]);
 
   useEffect(() => {
-    const initialEditors = generateEditorPositions(fileTree);
+    const initialEditors = generateEditorPositions(tree);
     setEditors(initialEditors);
   }, []);
 

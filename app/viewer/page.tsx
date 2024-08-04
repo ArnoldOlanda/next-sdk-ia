@@ -1,8 +1,13 @@
+'use client'
 import { Canvas } from '@/components/Canvas'
-import React from 'react'
+import React, { useState } from 'react'
 import Chat from './components/Chat'
+import { FileUpload } from './components/UploadFiles'
 
 export default function Viewer() {
+  
+  const [tree, setTree] = useState([])
+
   return (
     <div style={{
       flex:1,
@@ -13,8 +18,16 @@ export default function Viewer() {
       zIndex: 1,
       overflow:'hidden'
     }}>
-      <Canvas />
-      <Chat />
+      {
+        tree.length>0?
+        <>
+          <Canvas tree={tree} />
+          <Chat />
+        </>:
+        <FileUpload setTree={setTree}/>
+      }
+      
+      
     </div>
   )
 }
