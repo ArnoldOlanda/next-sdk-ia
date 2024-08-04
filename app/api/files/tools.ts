@@ -1,10 +1,17 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-const notpermit: string[] = ["node_modules", ".git"]; // Lista de directorios y archivos no permitidos
+const notpermit: string[] = [
+    ".git",
+    "node_modules",
+    "package-lock.json",
+    "package.json",
+    "yarn.lock",
+];
 
 interface FileStructure {
     name: string;
+    content: string;
 }
 
 interface FolderStructure {
@@ -46,7 +53,8 @@ export function getDirectoryStructure(rootDir: string): DirectoryStructure {
                     directoryStructure.folders.push(subFolder);
                 }
             } else {
-                children.push({ name: item.name });
+                const content = fs.readFileSync(itemPath, 'utf-8');
+                children.push({ name: item.name, content });
             }
         });
 

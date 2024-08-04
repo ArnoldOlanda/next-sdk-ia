@@ -5,6 +5,7 @@ import * as monaco from 'monaco-editor';
 import { tree } from '@/data';
 import { FileNode, NodeEditor } from '@/interfaces';
 import imageSrc from '../assets/your-image.png';
+import { Modal } from './Modal';
 
 const colors = [
   "#DBD2EF",
@@ -18,7 +19,7 @@ const colors = [
  * 
  * @returns The Canvas component.
  */
-export const Canvas = ({tree}) => {
+export const Canvas = ({tree, openModal}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [scale, setScale] = useState(1);
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
@@ -81,7 +82,7 @@ export const Canvas = ({tree}) => {
           name: node.name,
           x: paddingX,
           y: yOffset + initial,
-          content: '',
+          content: "",
           isFolder: true,
           folders: node.folders
         });
@@ -93,7 +94,7 @@ export const Canvas = ({tree}) => {
         node.children.forEach((child, index) => {
           const x = xInitial + paddingX + (index * (widthFile + 30));
           const y = yOffset + initial;
-          positions.push({ name: child.name, x, y, content: "// " + child.name, isFolder: false });
+          positions.push({ name: child.name, x, y, content: `//${child.name}\n`+child.content, isFolder: false });
         });
 
         yOffset += regionHeight * factor;
@@ -208,6 +209,7 @@ export const Canvas = ({tree}) => {
       }
     });
   }, [scale, editors]);
+
   useEffect(() => {
     const canvas = canvasRef.current;
 
@@ -236,7 +238,7 @@ export const Canvas = ({tree}) => {
       width: '100%',
       maxHeight: '100%',
       position: 'relative',
-      zIndex: 1,
+      zIndex: 10,
       overflow:'hidden'
 
     }}>
@@ -321,12 +323,22 @@ export const Canvas = ({tree}) => {
               width: widthFile * scale,
               height: heightFile * scale,
               transformOrigin: 'top left',
-              border: '1px solid black',
+              //border: '1px solid black',
               overflow: 'hidden'
             }}
           >
-            <Editor
-              className='monaco-editor'
+            <button
+              onClick={()=>{openModal(editor)}}
+              style={{
+                height:"100%",
+                width:"100%",
+                color:'black',
+                backgroundColor: 'yellow',
+                borderRadius: '5px',
+                fontSize: 14* scale,
+
+              }}
+              /*
               height="100%"
               width="100%"
               defaultLanguage="javascript"
@@ -336,11 +348,12 @@ export const Canvas = ({tree}) => {
                 readOnly: false,
                 minimap: { enabled: false }
               }}
-              onMount={(editorInstance) => handleEditorDidMount(editorInstance, index)}
-            />
+              onMount={(editorInstance) => handleEditorDidMount(editorInstance, index)}*/
+            >{editor.name}</button>
           </div>
         )
       ))}
+      
     </div>
   );
 };

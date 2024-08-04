@@ -4,7 +4,7 @@ export interface FileNode {
   name: string;
   path: string;
   folders: string [];
-  children: { name: string }[];
+  children: { name: string, content: string; }[];
 }
 
 export interface NodeEditor {
