@@ -103,10 +103,10 @@ export const MyMonacoEditor = ({
 
   //-=================================
   // busca palabra en árbol
-  const searchInFileTree = (tree, word: string) => {
-    const results = [];
+  const searchInFileTree = (tree: NodeEditor[], word: string) => {
+    const results:any[] = [];
 
-    const search = (nodes, currentPath) => {
+    const search = (nodes:any, currentPath:string) => {
       for (let node of nodes) {
         if (node.children) {
           for (let child of node.children) {

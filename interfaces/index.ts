@@ -15,6 +15,8 @@ export interface NodeEditor {
   editor?: monaco.editor.IStandaloneCodeEditor;
   isFolder: boolean;
   folders: string [];
+  fontSize:number;
+  minimap: {enabled:boolean};
 }
 
 export interface Message {

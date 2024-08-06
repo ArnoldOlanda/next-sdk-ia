@@ -47,7 +47,7 @@ const colors = [
  */
 
 interface props {
-  tree: NodeEditor[];
+  tree: FileNode[];
   openModal: Function;
 }
 
@@ -58,6 +58,8 @@ export const Canvas = ({ tree, openModal }: props) => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [imagePattern, setImagePattern] = useState<CanvasPattern | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [canvasDimensions, setCanvasDimensions] = useState({ width: 0, height: 0 });
 
   let paddingX = 40;
   const paddingY = 30;
@@ -101,16 +103,9 @@ export const Canvas = ({ tree, openModal }: props) => {
   }, []);
 
   const generateEditorPositions = (nodes: FileNode[]) => {
-    const positions: {
-      name: string;
-      x: number;
-      y: number;
-      content: string;
-      isFolder: boolean;
-      folders?: string[];
-    }[] = [];
+    const positions: NodeEditor[] = [];
     let yOffset = 0; // size of the header
-
+    const fontSize = 16 * scale;
     let factor = scale;
     let initial = (regionHeight * factor - heightFile * factor) / 2;
 
@@ -125,6 +120,8 @@ export const Canvas = ({ tree, openModal }: props) => {
           content: "",
           isFolder: true,
           folders: node.folders,
+          fontSize,
+          minimap: { enabled: false },
         });
         xInitial = widthFile + 30;
       }
@@ -139,6 +136,9 @@ export const Canvas = ({ tree, openModal }: props) => {
             y,
             content: `//${child.name}\n` + child.content,
             isFolder: false,
+            folders:[],
+            fontSize,
+            minimap: { enabled: false },
           });
         });
 
@@ -240,17 +240,7 @@ export const Canvas = ({ tree, openModal }: props) => {
   };
 
   useEffect(() => {
-    const initialEditors = generateEditorPositions(tree);
-    editors.forEach((editor) => {
-      if (editor.editor) {
-        const fontSize = 16 * scale;
-        editor.editor.updateOptions({
-          ...initialEditors,
-          fontSize,
-          minimap: { enabled: false },
-        });
-      }
-    });
+    generateEditorPositions(tree);
   }, [scale, editors]);
 
   useEffect(() => {
@@ -274,8 +264,27 @@ export const Canvas = ({ tree, openModal }: props) => {
     setEditors(initialEditors);
   }, []);
 
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      const observer = new ResizeObserver(() => {
+        setCanvasDimensions({
+          width: container.clientWidth,
+          height: container.clientHeight,
+        });
+      });
+  
+      observer.observe(container);
+  
+      return () => {
+        observer.disconnect();
+      };
+    }
+  }, []);
+
   return (
     <div
+      ref={containerRef}
       style={{
         flex: 1,
         height: "100%",
@@ -288,8 +297,8 @@ export const Canvas = ({ tree, openModal }: props) => {
     >
       <canvas
         ref={canvasRef}
-        width={window.innerWidth}
-        height={window.innerHeight - 50}
+        width={canvasDimensions.width}
+        height={canvasDimensions.height - 50} // Ajusta según sea necesario
         onWheel={handleWheel}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
@@ -303,7 +312,6 @@ export const Canvas = ({ tree, openModal }: props) => {
           backgroundColor: "#000",
         }}
       />
-
       <button
         onClick={handleReset}
         style={{

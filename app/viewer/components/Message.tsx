@@ -1,17 +1,24 @@
 import React from 'react'
 import { type Message } from '@/interfaces'
-import { CoreMessage, TextPart } from 'ai'
+import { CoreMessage, TextPart, ImagePart, ToolCallPart, ToolResultPart } from 'ai'
 import Markdown from 'react-markdown'
-// import remarkGfm from 'remark-gfm'
-
-import rehypeHighlight from 'rehype-highlight';
-import 'highlight.js/styles/default.css';
+import rehypeHighlight from 'rehype-highlight'
+import 'highlight.js/styles/default.css'
 
 interface Props{
     message: CoreMessage
 }
 
+const isTextPart = (part: any): part is TextPart => {
+    return (part as TextPart).text !== undefined;
+}
+
 const Message = ({message}:Props) => {
+
+    const content = typeof message.content === 'string' 
+    ? message.content 
+    : isTextPart(message.content[0]) ? message.content[0].text : '';
+
     return (
         <div className={`flex gap-1 mb-4 ${message.role==='user' ? 'flex-row-reverse':''} `}>
             <img 
@@ -24,9 +31,7 @@ const Message = ({message}:Props) => {
                 remarkPlugins={[rehypeHighlight]}
             >
                 {
-                    typeof message.content === 'string' 
-                        ? message.content 
-                        : message.content[0].text
+                    content
                 }
             </Markdown>
                 

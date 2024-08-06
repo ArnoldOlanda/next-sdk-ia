@@ -11,7 +11,7 @@ import { MyMonacoEditor } from "./MonacoEditor";
 interface props {
   isOpen: boolean;
   onClose: Function;
-  editor: NodeEditor;
+  editor: NodeEditor | null;
   tree: NodeEditor[];
   setEditor: Function;
 }
@@ -43,7 +43,7 @@ export const Modal = ({ isOpen, onClose, editor, tree, setEditor }: props) => {
         </button>
 
         <div style={{ flex: 1, flexDirection: "column", marginRight: 5 }}>
-          {listaArchivos.map((e, i) => (
+          {listaArchivos.map((e: any, i:number) => (
             <button
               onClick={() => {
                 setEditor(e);
@@ -65,17 +65,22 @@ export const Modal = ({ isOpen, onClose, editor, tree, setEditor }: props) => {
           ))}
         </div>
 
+
+        {editor &&
         <div style={{ flex: 1 }}>
           <MyMonacoEditor
             setListaArchivos={setListaArchivos}
-            defaultValue={editor.content} // Pasar el código predefinido
+            defaultValue={editor.content}
             tree={tree}
           />
-        </div>
+        </div>}
 
+
+        {editor &&
         <div style={{ flex: 1 }}>
           <ChatOpen editor={editor} />
         </div>
+        }
       </div>
     </div>
   );
