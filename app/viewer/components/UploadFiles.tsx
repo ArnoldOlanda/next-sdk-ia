@@ -51,6 +51,7 @@ export const FileUpload = ({ setTree }) => {
       {/* <input type="file" onChange={handleFileChange} /> */}
       <Dropzone 
         onChange={updateFiles} 
+        accept=".zip,application/zip"
         value={files}
         minHeight='65vh'
         style={{
