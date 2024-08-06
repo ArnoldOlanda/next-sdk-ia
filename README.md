@@ -4,7 +4,7 @@
 </p>
 
 
-## Visualizador de archivos y carpetas con asistencia de un chatbot para resolver dudas sobre el repositorio.
+## Visualizador de archivos y carpetas con asistencia de un chatbot para resolver dudas sobre tu repositorio.
 
 Este proyecto busca facilitar la comprensión de repositorios **JavaScript** otorgando a los usuarios una disposición visual de archivos y carpetas, y ofreciendo un chatbot que resolverá dudas sobre el código interno. Nació con el propósito de ser una herramienta que explique de manera clara y accesible un proyecto/repositorio a diversos interesados, ya sean nuevos colaboradores que se unen a un equipo, personal no técnico en el área de IT que necesita entender el funcionamiento de un sistema, o simplemente alguien curioso sobre lo que se ha desarrollado.
 
