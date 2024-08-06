@@ -13,7 +13,36 @@ import { FileNode, NodeEditor } from "@/interfaces";
 import imageSrc from "../assets/your-image.png";
 import { Modal } from "./Modal";
 
-const colors = ["#DBD2EF", "#AF97E0", "#BEE48D", "#E0E0E0"];
+const colors = [
+  "#1D1D1D",
+  "#222222",
+  "#272727",
+  "#2C2C2C",
+  "#313131",
+  "#373737",
+  "#3C3C3C",
+  "#414141",
+  "#464646",
+  "#4B4B4B",
+  "#505050",
+  "#555555",
+  "#5A5A5A",
+  "#5F5F5F",
+  "#646464",
+  "#6A6A6A",
+];
+
+// black: {
+//     100: "#d2d2d2",
+//     200: "#a5a5a5",
+//     300: "#777777",
+//     400: "#4a4a4a",
+//     500: "#1d1d1d",
+//     600: "#171717",
+//     700: "#111111",
+//     800: "#0c0c0c",
+//     900: "#060606"
+// },
 
 /**
  * Canvas component for displaying regions and editors.
@@ -145,7 +174,7 @@ export const Canvas = ({ tree, openModal }) => {
           ctx.save();
           ctx.translate(x + 20, y + 25);
           //ctx.rotate(-Math.PI / 2);
-          ctx.fillStyle = "#000";
+          ctx.fillStyle = "#fff";
           ctx.font = "bold 16px Consolas";
           ctx.fillText(node.path, 0, 0);
           ctx.restore();
@@ -203,21 +232,6 @@ export const Canvas = ({ tree, openModal }) => {
     setTranslate({ x: 0, y: 0 });
   };
 
-  const handleEditorDidMount = (
-    editor: monaco.editor.IStandaloneCodeEditor,
-    index: number
-  ) => {
-    const fontSize = 12 * scale;
-    editor.updateOptions({
-      // zIndex: 1,
-      fontSize,
-      minimap: { enabled: false },
-    });
-    const updatedEditors = [...editors];
-    updatedEditors[index].editor = editor;
-    setEditors(updatedEditors);
-  };
-
   const handleFolderClick = (x: number, y: number, name: string) => {
     let region = regions.find((e) => e.name == name);
     setTranslate({ x: 0, y: -region!.y * scale });
@@ -227,7 +241,7 @@ export const Canvas = ({ tree, openModal }) => {
     const initialEditors = generateEditorPositions(tree);
     editors.forEach((editor) => {
       if (editor.editor) {
-        const fontSize = 14 * scale;
+        const fontSize = 16 * scale;
         editor.editor.updateOptions({
           ...initialEditors,
           fontSize,
@@ -335,9 +349,9 @@ export const Canvas = ({ tree, openModal }) => {
                   height: 96 * scale,
                   fontSize: 14 * scale,
                   //margin: 5 * scale,
-                  backgroundColor: "#BFF976",
+                  backgroundColor: "white",
                   color: "#000",
-                  borderRadius: "5px",
+                  //borderRadius: "5px",
                 }}
               >
                 {folder}
@@ -366,10 +380,12 @@ export const Canvas = ({ tree, openModal }) => {
               style={{
                 height: "100%",
                 width: "100%",
-                color: "black",
-                backgroundColor: "yellow",
-                borderRadius: "14px",
-                fontSize: 14 * scale,
+                color: "white",
+                //backgroundColor: "yellow",
+                //borderRadius: "14px",
+                fontSize: 20 * scale,
+                borderWidth: 5, // Agrega un borde de 1px
+                borderColor: "white",
               }}
               /*
               height="100%"

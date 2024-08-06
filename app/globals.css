@@ -30,5 +30,12 @@ body {
 
 
 .highlight {
-  background-color: rgb(32, 80, 182);
+  background-color: rgb(103, 74, 172);
+}
+
+/* styles/globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+
+body {
+  font-family: 'Pixelify Sans', sans-serif;
 }
