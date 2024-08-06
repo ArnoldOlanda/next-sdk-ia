@@ -51,7 +51,7 @@ const Chat = () => {
 
     return (
         <div
-            className={`transition-all duration-500 ease-in-out overflow-hidden absolute top-6 right-6 bg-white text-black rounded-2xl p-2 ${isOpen ? 'h-[60%] w-[30%]' : 'h-10 w-[6%]'} flex flex-col`}
+            className={`z-10 transition-all duration-500 ease-in-out overflow-hidden absolute top-6 right-6 bg-white text-black rounded-2xl p-2 ${isOpen ? 'h-[60%] w-[30%]' : 'h-10 w-[6%]'} flex flex-col`}
         >
             {
                 !isOpen ? (
