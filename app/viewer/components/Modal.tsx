@@ -18,6 +18,7 @@ interface props {
 
 export const Modal = ({ isOpen, onClose, editor, tree, setEditor }: props) => {
   const [listaArchivos, setListaArchivos] = useState<any>([]);
+  const [selectedWord, setSelectedWord] = useState(null);
 
   useEffect(() => {
     setListaArchivos([]);
@@ -69,10 +70,10 @@ export const Modal = ({ isOpen, onClose, editor, tree, setEditor }: props) => {
         {editor &&
         <div style={{ flex: 1 }}>
           <MyMonacoEditor
-            setListaArchivos={setListaArchivos}
-            defaultValue={editor.content}
-            tree={tree}
-          />
+              selectedWord={selectedWord}
+              setListaArchivos={setListaArchivos}
+              defaultValue={editor.content}
+              tree={tree} setSelectedWord={setSelectedWord }/>
         </div>}
 
 

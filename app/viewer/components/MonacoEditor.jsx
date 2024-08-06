@@ -1,32 +1,29 @@
+
+'use client'
+
 import { useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import Monaco from "@monaco-editor/react"; // Importa monaco aquí
-import * as monaco from "monaco-editor";
-import { editor as monacoEditor } from 'monaco-editor';
-import { NodeEditor } from "@/interfaces";
-//import { NodeEditor } from "@/interfaces";
-//import { fileTree } from "@/data";
 
-interface Props {
-  setListaArchivos: React.Dispatch<React.SetStateAction<any[]>>;
-  tree: NodeEditor[];
-  defaultValue: string;
-}
+import dynamic from 'next/dynamic';
+const Editor = dynamic(() => import('@monaco-editor/react'), { ssr: false });
+//import * as monaco from "monaco-editor";
 
 export const MyMonacoEditor = ({
   defaultValue,
   tree,
   setListaArchivos,
-}: Props) => {
+  setSelectedWord,
+  selectedWord,
+}) => {
   
-  const editorRef = useRef<monacoEditor.IStandaloneCodeEditor | null>(null);
-  const [decorations, setDecorations] = useState<any>([]);
-  const [selectedWord, setSelectedWord] = useState<any>(null);
+  const editorRef = useRef(null);
+  const [decorations, setDecorations] = useState([]);
+ 
 
   useEffect(() => {
     if (editorRef.current) {
       const model = editorRef.current.getModel();
-      model!.setValue(defaultValue);
+      model.setValue(defaultValue);
     }
   }, [defaultValue]);
   
@@ -36,7 +33,7 @@ export const MyMonacoEditor = ({
       const model = editorRef.current.getModel();
 
       // Limpia decoraciones anteriores
-      const newDecorations:any[] = [];
+      const newDecorations = [];
 
       // Selección de solo palabras
       if (selectedWord) {
@@ -53,7 +50,7 @@ export const MyMonacoEditor = ({
           "g"
         );
 
-        const lines = model!.getLinesContent();
+        const lines = model.getLinesContent();
 
         // Búsqueda de expresiones
         lines.forEach((line, lineIndex) => {
@@ -103,18 +100,18 @@ export const MyMonacoEditor = ({
 
   //-=================================
   // busca palabra en árbol
-  const searchInFileTree = (tree: NodeEditor[], word: string) => {
-    const results:any[] = [];
+  const searchInFileTree = (tree, word) => {
+    const results = [];
 
-    const search = (nodes:any, currentPath:string) => {
+    const search = (nodes, currentPath) => {
       for (let node of nodes) {
         if (node.children) {
           for (let child of node.children) {
             if (child.content && child.content.includes(word)) {
               const lines = child.content.split("\n");
               const matchingLines = lines
-                .map((line:number, index:number) => ({ line, lineNumber: index + 1 }))
-                .filter(({ line }:{line:string}) => line.includes(word));
+                .map((line, index) => ({ line, lineNumber: index + 1 }))
+                .filter(({ line }) => line.includes(word));
 
               results.push(child);
             }
@@ -135,13 +132,13 @@ export const MyMonacoEditor = ({
   };
 
   //
-  const handleEditorDidMount = (editor:monacoEditor.IStandaloneCodeEditor) => {
+  const handleEditorDidMount = (editor) => {
     editorRef.current = editor;
 
     editor.onMouseDown((e) => {
       const position = e.target.position;
       const model = editor.getModel();
-      const word = model!.getWordAtPosition(position!);
+      const word = model.getWordAtPosition(position);
 
       if (word) {
         const clickedWord = word.word;
@@ -155,7 +152,7 @@ export const MyMonacoEditor = ({
           "g"
         );
 
-        const lines = model!.getLinesContent();
+        const lines = model.getLinesContent();
         let isComponent = false;
 
         lines.forEach((line) => {
@@ -169,7 +166,7 @@ export const MyMonacoEditor = ({
 
         // Dehighlight
         if (isComponent) {
-          const newSelectedWord = (prevWord:string) =>
+          const newSelectedWord = (prevWord) =>
             prevWord === clickedWord ? null : clickedWord;
 
           setSelectedWord(newSelectedWord);
@@ -184,7 +181,7 @@ export const MyMonacoEditor = ({
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
-      <Monaco
+      <Editor
         defaultLanguage="javascript"
         defaultValue={defaultValue}
         theme="vs-dark"
@@ -198,3 +195,8 @@ export const MyMonacoEditor = ({
   );
 };
 
+MyMonacoEditor.propTypes = {
+  defaultValue: PropTypes.string.isRequired,
+  selectedWord: PropTypes.string,
+  setSelectedWord: PropTypes.func.isRequired,
+};
