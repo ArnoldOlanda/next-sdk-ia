@@ -17,7 +17,7 @@ interface props {
 }
 
 export const Modal = ({ isOpen, onClose, editor, tree, setEditor }: props) => {
-  const [listaArchivos, setListaArchivos] = useState([]);
+  const [listaArchivos, setListaArchivos] = useState<any>([]);
 
   useEffect(() => {
     setListaArchivos([]);
@@ -27,7 +27,7 @@ export const Modal = ({ isOpen, onClose, editor, tree, setEditor }: props) => {
 
   return (
     <div
-      className="z-10 fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
       onClick={() => onClose()}
     >
       <div

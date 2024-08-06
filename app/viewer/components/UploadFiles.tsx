@@ -12,7 +12,7 @@ export const FileUpload = ({ setTree }: props) => {
 
   const updateFiles = (incommingFiles: ExtFile[]) => {
     const maxSize = 2 * 1024 * 1024; // 10 MB
-    const filteredFiles = incommingFiles.filter((file) => file.size <= maxSize);
+    const filteredFiles = incommingFiles.filter((file) => file.size! <= maxSize);
 
     if (filteredFiles.length !== incommingFiles.length) {
       alert("El archivo debe ser menor a 2Mb");
