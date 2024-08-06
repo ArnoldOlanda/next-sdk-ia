@@ -311,7 +311,7 @@ export const Canvas = ({ tree, openModal }: props) => {
           bottom: "20px",
           right: "20px",
           padding: "10px 20px",
-          backgroundColor: "#007bff",
+          backgroundColor: "#1E3A8A",
           color: "#fff",
           border: "none",
           borderRadius: "5px",

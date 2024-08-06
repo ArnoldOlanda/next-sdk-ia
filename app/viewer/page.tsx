@@ -1,15 +1,13 @@
-'use client'
-import { Canvas } from '@/app/viewer/components/Canvas'
-import React, { useEffect, useState } from 'react'
-import Chat from './components/Chat'
-import { FileUpload } from './components/UploadFiles'
-import { Modal } from '@/app/viewer/components/Modal'
-import { FileNode } from '@/interfaces'
-
+"use client";
+import { Canvas } from "@/app/viewer/components/Canvas";
+import React, { useEffect, useState } from "react";
+import Chat from "./components/Chat";
+import { FileUpload } from "./components/UploadFiles";
+import { Modal } from "@/app/viewer/components/Modal";
+import { FileNode } from "@/interfaces";
 
 export default function Viewer() {
-  
-  const [tree, setTree] = useState([])
+  const [tree, setTree] = useState([]);
   const [editor, setEditor] = useState<FileNode>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,18 +28,25 @@ export default function Viewer() {
         position: "relative",
         zIndex: 1,
         overflow: "hidden",
+        backgroundColor: "#1D1D1D",
       }}
     >
-      {tree.length > 0 ? 
+      {tree.length > 0 ? (
         <>
-          <Canvas tree={tree} openModal={openModal}/>
-          <Chat tree={JSON.stringify(tree)}/>
-        </>:
+          <Canvas tree={tree} openModal={openModal} />
+          <Chat tree={JSON.stringify(tree)} />
+        </>
+      ) : (
         <FileUpload setTree={setTree} />
-      }
-      
-      <Modal isOpen={isModalOpen} onClose={closeModal} editor={editor} tree={tree} setEditor={setEditor}/>
-      
+      )}
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        editor={editor}
+        tree={tree}
+        setEditor={setEditor}
+      />
     </div>
   );
 }
