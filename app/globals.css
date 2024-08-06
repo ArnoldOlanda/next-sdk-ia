@@ -27,3 +27,8 @@ body {
     text-wrap: balance;
   }
 }
+
+
+.highlight {
+  background-color: rgb(32, 80, 182);
+}

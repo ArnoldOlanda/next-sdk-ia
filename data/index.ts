@@ -2,23 +2,36 @@ import { FileNode, Message } from "@/interfaces";
 
 export const fileTree: FileNode[] = [
       {
+        
           "name": "RimanakuyInterface",
           "path": ".",
           "children": [
               {
-                  "name": ".eslintrc"
+                  "name": ".eslintrc",
+        "content" : `Bar`
+    
               },
               {
-                  "name": "index.html"
+                  "name": "index.html",
+                  "content" : `
+
+                  `
               },
               {
-                  "name": "vite.config.js"
+                  "name": "vite.config.js",
+                  "content" : ""
               },
               {
-                  "name": "README.md"
+                  "name": "README.md",
+                  "content" : ""
               },
               {
-                  "name": ".gitignore"
+                  "name": ".gitignore",
+                  "content" : ""
+              },
+              {
+                  "name": "content",
+                  "content": ""
               }
           ],
           "folders": [
@@ -31,19 +44,25 @@ export const fileTree: FileNode[] = [
           "path": "src",
           "children": [
               {
-                  "name": "main.jsx"
+                  "name": "main.jsx",
+                  "content" : ``
+                  
               },
               {
-                  "name": "theme.js"
+                  "name": "theme.js",
+                  "content" : ""
               },
               {
-                  "name": "App.jsx"
+                  "name": "App.jsx",
+                  "content" : ""
               },
               {
-                  "name": "index.css"
+                  "name": "index.css",
+                  "content" : ""
               },
               {
-                  "name": "App.css"
+                  "name": "App.css",
+                  "content" : ""
               }
           ],
           "folders": [
@@ -58,7 +77,24 @@ export const fileTree: FileNode[] = [
           "path": "src/pages",
           "children": [
               {
-                  "name": "Home.jsx"
+                  "name": "Home.jsx",
+                  "content" : `
+import { Box } from "@mui/material";
+import Header from "../../components/Header";
+import BarChart from "../../components/BarChart";
+
+const Bar = () => {
+  return (
+    <Box m="20px">
+      <Header title="Bar chart" subtitle="Simple Bar Chart" />
+      <Box height="75vh">
+        <BarChart />
+      </Box>
+    </Box>
+  );
+};
+
+export default Bar;`
               }
           ],
           "folders": []
@@ -68,19 +104,24 @@ export const fileTree: FileNode[] = [
           "path": "src/assets",
           "children": [
               {
-                  "name": "Logo.jsx"
+                  "name": "Logo.jsx",
+                  "content" : ""
               },
               {
-                  "name": "spain.png"
+                  "name": "spain.png",
+                  "content" : ""
               },
               {
-                  "name": "Languages.jsx"
+                  "name": "Languages.jsx",
+                  "content" : "const Bar = () => {"
               },
               {
-                  "name": "image 2.png"
+                  "name": "image 2.png",
+                  "content" : ""
               },
               {
-                  "name": "react.svg"
+                  "name": "react.svg",
+                  "content" : ""
               }
           ],
           "folders": []
@@ -90,10 +131,12 @@ export const fileTree: FileNode[] = [
           "path": "src/services",
           "children": [
               {
-                  "name": "config.js"
+                  "name": "config.js",
+                  "content" : "const Bar = () => {"
               },
               {
-                  "name": "model.service.js"
+                  "name": "model.service.js",
+                  "content" : ""
               }
           ],
           "folders": []
@@ -103,16 +146,20 @@ export const fileTree: FileNode[] = [
           "path": "src/components",
           "children": [
               {
-                  "name": "BoxLanguages.jsx"
+                  "name": "BoxLanguages.jsx",
+                  "content" : ""
               },
               {
-                  "name": "TextBoxTranslate.jsx"
+                  "name": "TextBoxTranslate.jsx",
+                  "content" : ""
               },
               {
-                  "name": "Spinner.jsx"
+                  "name": "Spinner.jsx",
+                  "content" : ""
               },
               {
-                  "name": "Language.jsx"
+                  "name": "Language.jsx",
+                  "content" : ""
               }
           ],
           "folders": []
@@ -122,18 +169,90 @@ export const fileTree: FileNode[] = [
           "path": "public",
           "children": [
               {
-                  "name": "_redirects"
+                  "name": "_redirects",
+                  "content" : ""
               },
               {
-                  "name": "vite.svg"
+                  "name": "vite.svg",
+                  "content" : ""
               },
               {
-                  "name": "prueba.xlsx"
+                  "name": "prueba.xlsx",
+                  "content" : ""
               },
               {
-                  "name": "loaderio-ad27ec2fa47edb3a4f25434a1db097e7.txt"
+                  "name": "loaderio-ad27ec2fa47edb3a4f25434a1db097e7.txt",
+                  "content" : `
+import { Box } from "@mui/material";
+import Header from "../../components/Header";
+import BarChart from "../../components/BarChart";
+
+const Bar = () => {
+  return (
+    <Box m="20px">
+      <Header title="Bar chart" subtitle="Simple Bar Chart" />
+      <Box height="75vh">
+        <BarChart />
+      </Box>
+    </Box>
+  );
+};
+
+export default Bar;
+`
               }
           ],
           "folders": []
       }
   ]
+
+
+
+
+
+
+  const text = `
+const Bar = () => {
+  return (
+    <Box m="20px">
+      <Header title="Bar chart" subtitle="Simple Bar Chart" />
+      <Box height="75vh">
+        <BarChart />
+      </Box>
+    </Box>
+  );
+};
+}
+
+function App() {
+  const [theme, colorMode] = useMode();
+
+  return (
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div className="app">
+          <Sidebar />
+          <main className="content">
+            <Topbar />
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/team" element={<Team />} />
+              <Route path="/contacts" element={<Contacts />} />
+              <Route path="/invoices" element={<Invoices />} />
+              <Route path="/form" element={<Form />} />
+              <Route path="/bar" element={<Bar />} />
+              <Route path="/pie" element={<Pie />} />
+              <Route path="/line" element={<Line />} />
+              {/* <Route path="/geography" element={<Geography />} />*/}
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/calendar" element={<Calendar />} />
+            </Routes>
+          </main>
+        </div>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
+  );
+}content here
+}
+`;
