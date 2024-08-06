@@ -4,7 +4,7 @@ export interface FileNode {
   name: string;
   path: string;
   folders: string [];
-  children: { name: string, content: string; }[];
+  children: { name: string, /*content: string;*/ }[];
 }
 
 export interface NodeEditor {
@@ -13,8 +13,8 @@ export interface NodeEditor {
   y: number;
   content: string;
   editor?: monaco.editor.IStandaloneCodeEditor;
-  //isFolder: boolean;
-  //folders: string [];
+  isFolder: boolean;
+  folders: string [];
 }
 
 export interface Message {

@@ -1,4 +1,4 @@
-import { FileNode, Message } from "@/interfaces";
+import { FileNode, Message } from '@/interfaces';
 
 export const fileTree: FileNode[] = [
       {

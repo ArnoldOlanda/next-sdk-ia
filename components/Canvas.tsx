@@ -209,7 +209,7 @@ export const Canvas = ({ tree, openModal }) => {
   ) => {
     const fontSize = 12 * scale;
     editor.updateOptions({
-      zIndex: 1,
+      // zIndex: 1,
       fontSize,
       minimap: { enabled: false },
     });
@@ -220,7 +220,7 @@ export const Canvas = ({ tree, openModal }) => {
 
   const handleFolderClick = (x: number, y: number, name: string) => {
     let region = regions.find((e) => e.name == name);
-    setTranslate({ x: 0, y: -region.y * scale });
+    setTranslate({ x: 0, y: -region!.y * scale });
   };
 
   useEffect(() => {
