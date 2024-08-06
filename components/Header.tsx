@@ -18,7 +18,7 @@ export const Header = () => {
               <img src={session.user.image!} alt="test" className='w-8 h-8 rounded-full' />
               <button 
                 className='mr-4 bg-blue-900 p-1 px-4 rounded hover:bg-blue-700 transition-all'
-                onClick={() => signOut({callbackUrl: '/auth/signin'})} 
+                onClick={() => signOut({callbackUrl: '/'})} 
               >
                 Sign out
               </button>
