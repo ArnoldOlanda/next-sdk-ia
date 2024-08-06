@@ -22,3 +22,8 @@ export interface Message {
   message: string
   role: 'user' | 'assistant'
 }
+
+export interface Embedding {
+  content: string;
+  embedding: number[];
+};

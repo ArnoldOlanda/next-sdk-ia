@@ -335,7 +335,8 @@ export const Canvas = ({tree, openModal}) => {
                 color:'black',
                 backgroundColor: 'yellow',
                 borderRadius: '5px',
-                fontSize: 14* scale,
+                fontSize: 20* scale,
+                fontWeight: 'bold',
 
               }}
               /*

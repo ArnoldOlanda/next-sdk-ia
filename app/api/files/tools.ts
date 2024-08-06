@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'fs';
+import path from 'path';
 
 const notpermit: string[] = [
     ".git",
@@ -7,6 +7,12 @@ const notpermit: string[] = [
     "package-lock.json",
     "package.json",
     "yarn.lock",
+];
+
+const excludedExtensions: string[] = [
+    ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".ico", ".svg",
+    ".doc", ".docx", ".pdf", ".xls", ".xlsx", ".ppt", ".pptx", 
+    ".mp3", ".wav", ".mp4", ".avi", ".mov", ".mkv", ".flv", ".wmv", 
 ];
 
 interface FileStructure {
@@ -53,7 +59,12 @@ export function getDirectoryStructure(rootDir: string): DirectoryStructure {
                     directoryStructure.folders.push(subFolder);
                 }
             } else {
+                const extension = path.extname(item.name).toLowerCase();
+                if (excludedExtensions.includes(extension))
+                    return;
                 const content = fs.readFileSync(itemPath, 'utf-8');
+                if (content.length>5000)
+                    return
                 children.push({ name: item.name, content });
             }
         });
@@ -70,4 +81,3 @@ export function getDirectoryStructure(rootDir: string): DirectoryStructure {
 
     return directoryStructure;
 }
-

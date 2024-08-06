@@ -26,8 +26,9 @@ export const FileUpload = ({setTree}) => {
 
     if (response.ok) {
       const result = await response.json();
-      console.log(result.directoryStructure);
-      setTree(result.directoryStructure.folders.reverse());
+      const tree = result.directoryStructure.folders.reverse();
+      setTree(tree);
+
       console.log('File uploaded successfully!');
     } else {
       console.error('File upload failed.');

@@ -7,8 +7,17 @@ import Message from './Message'
 import { CoreMessage } from 'ai';
 import { continueConversation } from '@/app/actions';
 import { readStreamableValue } from 'ai/rsc';
+import { NodeEditor } from '@/interfaces';
 
-const Chat = () => {
+interface props {
+    tree: string
+  }
+
+const Chat = ({tree}:props) => {
+
+    const prompt = 
+        `Eres un asistente que responde preguntas acerca del siguiente proyecto:
+         code: ${tree}`;
 
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [messages, setMessages] = useState<CoreMessage[]>([]);
@@ -36,7 +45,7 @@ const Chat = () => {
         setMessages(newMessages);
         setInput('');
 
-        const result = await continueConversation(newMessages);
+        const result = await continueConversation(newMessages, prompt);
 
         for await (const content of readStreamableValue(result)) {
             setMessages([

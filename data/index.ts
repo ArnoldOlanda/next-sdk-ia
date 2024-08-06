@@ -6,19 +6,24 @@ export const fileTree: FileNode[] = [
           "path": ".",
           "children": [
               {
-                  "name": ".eslintrc"
+                  "name": ".eslintrc",
+                  content: "function"
               },
               {
-                  "name": "index.html"
+                  "name": "index.html",
+                  content: "function"
               },
               {
-                  "name": "vite.config.js"
+                  "name": "vite.config.js",
+                  content: "function"
               },
               {
-                  "name": "README.md"
+                  "name": "README.md",
+                  content: "function"
               },
               {
-                  "name": ".gitignore"
+                  "name": ".gitignore",
+                  content: "function"
               }
           ],
           "folders": [
@@ -31,19 +36,24 @@ export const fileTree: FileNode[] = [
           "path": "src",
           "children": [
               {
-                  "name": "main.jsx"
+                  "name": "main.jsx",
+                  content: "function"
               },
               {
-                  "name": "theme.js"
+                  "name": "theme.js",
+                  content: "function"
               },
               {
-                  "name": "App.jsx"
+                  "name": "App.jsx",
+                  content: "function"
               },
               {
-                  "name": "index.css"
+                  "name": "index.css",
+                  content: "function"
               },
               {
-                  "name": "App.css"
+                  "name": "App.css",
+                  content: "function"
               }
           ],
           "folders": [
@@ -58,7 +68,8 @@ export const fileTree: FileNode[] = [
           "path": "src/pages",
           "children": [
               {
-                  "name": "Home.jsx"
+                  "name": "Home.jsx",
+                  content: "function"
               }
           ],
           "folders": []
@@ -68,19 +79,24 @@ export const fileTree: FileNode[] = [
           "path": "src/assets",
           "children": [
               {
-                  "name": "Logo.jsx"
+                  "name": "Logo.jsx",
+                  content: "function"
               },
               {
-                  "name": "spain.png"
+                  "name": "spain.png",
+                  content: "function"
               },
               {
-                  "name": "Languages.jsx"
+                  "name": "Languages.jsx",
+                  content: "function"
               },
               {
-                  "name": "image 2.png"
+                  "name": "image 2.png",
+                  content: "function"
               },
               {
-                  "name": "react.svg"
+                  "name": "react.svg",
+                  content: "function"
               }
           ],
           "folders": []
@@ -90,10 +106,12 @@ export const fileTree: FileNode[] = [
           "path": "src/services",
           "children": [
               {
-                  "name": "config.js"
+                  "name": "config.js",
+                  content: "function"
               },
               {
-                  "name": "model.service.js"
+                  "name": "model.service.js",
+                  content: "function"
               }
           ],
           "folders": []
@@ -103,16 +121,20 @@ export const fileTree: FileNode[] = [
           "path": "src/components",
           "children": [
               {
-                  "name": "BoxLanguages.jsx"
+                  "name": "BoxLanguages.jsx",
+                  content: "function"
               },
               {
-                  "name": "TextBoxTranslate.jsx"
+                  "name": "TextBoxTranslate.jsx",
+                  content: "function"
               },
               {
-                  "name": "Spinner.jsx"
+                  "name": "Spinner.jsx",
+                  content: "function"
               },
               {
-                  "name": "Language.jsx"
+                  "name": "Language.jsx",
+                  content: "function"
               }
           ],
           "folders": []
@@ -122,16 +144,20 @@ export const fileTree: FileNode[] = [
           "path": "public",
           "children": [
               {
-                  "name": "_redirects"
+                  "name": "_redirects",
+                  content: "function"
               },
               {
-                  "name": "vite.svg"
+                  "name": "vite.svg",
+                  content: "function"
               },
               {
-                  "name": "prueba.xlsx"
+                  "name": "prueba.xlsx",
+                  content: "function"
               },
               {
-                  "name": "loaderio-ad27ec2fa47edb3a4f25434a1db097e7.txt"
+                  "name": "loaderio-ad27ec2fa47edb3a4f25434a1db097e7.txt",
+                  content: "function"
               }
           ],
           "folders": []

@@ -4,6 +4,7 @@ import Chat from '@/app/viewer/components/Chat';
 import { NodeEditor } from '@/interfaces';
 import { Editor } from '@monaco-editor/react';
 import React, { FC, ReactNode } from 'react';
+import ChatOpen from './ChatOpen';
 
 interface ModalProps {
   isOpen: boolean;
@@ -18,7 +19,7 @@ interface props {
 }
 
 
-export const Modal: FC<ModalProps> = ({ isOpen, onClose,  editor }:props) => {
+export const Modal = ({ isOpen, onClose,  editor }:props) => {
   if (!isOpen) return null;
 
   return (
@@ -42,7 +43,7 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose,  editor }:props) => {
           />
         </div>
         <div style={{flex:1}}>
-          <Chat/>
+          <ChatOpen editor={editor}/>
         </div>
       </div>
     </div>
