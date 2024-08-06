@@ -9,11 +9,11 @@ export const Header = () => {
   const { data: session } = useSession()
   // console.log(session)
   return (
-    <div className='bg-gray-900 w-[100%] h-[50px] p-2 flex justify-end z-10 flex-0'>
+    <div className='bg-gray-900 w-[100%] h-[50px] p-2 flex justify-end z-10 flex-0 text-white"'>
       {
         session?.user 
           ?(
-            <div className='flex gap-2 items-center'>
+            <div className='flex gap-2 items-center text-white'>
               <span>{ session.user.email }</span>
               <img src={session.user.image!} alt="test" className='w-8 h-8 rounded-full' />
               <button 
@@ -25,7 +25,7 @@ export const Header = () => {
             </div>
           ):(
             <button
-              className='mr-4 bg-blue-900 p-1 px-4 rounded hover:bg-blue-700 transition-all'
+              className='mr-4 bg-blue-900 p-1 px-4 rounded hover:bg-blue-700 transition-all text-white'
               onClick={() => signIn()}
             >
               Sign in

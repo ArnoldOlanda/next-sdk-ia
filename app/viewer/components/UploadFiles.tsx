@@ -3,21 +3,25 @@ import { Dropzone, ExtFile, FileMosaic } from '@files-ui/react';
 import path from 'path';
 import { useState, ChangeEvent, FormEvent } from 'react';
 
-export const FileUpload = ({ setTree }) => {
-  
-  const [file, setFile] = useState<File | null>(null);
+
+interface props {
+  setTree: Function,
+}
+
+export const FileUpload = ({ setTree }:props) => {
+
   const [files, setFiles] = useState<ExtFile[]>([]);
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
-    
-    if (e.target.files) {
-      setFile(e.target.files[0]);
-    }
-  };
 
   const updateFiles = (incommingFiles: ExtFile[]) => {
-    // console.log(incommingFiles);
+    const maxSize = 2 * 1024 * 1024; // 10 MB
+    const filteredFiles = incommingFiles.filter(file => file.size <= maxSize);
+
+    if (filteredFiles.length !== incommingFiles.length) {
+      alert('El archivo debe ser menor a 2Mb');
+      return
+    }
+
     if(incommingFiles.length === 0) return;
     setFiles(incommingFiles);
   };

@@ -4,17 +4,17 @@ import React, { useEffect, useState } from 'react'
 import Chat from './components/Chat'
 import { FileUpload } from './components/UploadFiles'
 import { Modal } from '@/app/viewer/components/Modal'
-import { fileTree } from '@/data'
+import { FileNode } from '@/interfaces'
 
 
 export default function Viewer() {
   
   const [tree, setTree] = useState([])
-  const [editor, setEditor] = useState(null);
+  const [editor, setEditor] = useState<FileNode>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = (editorTmp) => {
+  const openModal = (editorTmp: FileNode) => {
     setEditor(editorTmp);
     setIsModalOpen(true);
   };

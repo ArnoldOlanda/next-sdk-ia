@@ -6,12 +6,9 @@ import React, {
   MouseEvent,
   WheelEvent,
 } from "react";
-import { Editor } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
-import { tree } from "@/data";
 import { FileNode, NodeEditor } from "@/interfaces";
-import imageSrc from "../assets/your-image.png";
-import { Modal } from "./Modal";
+
 
 const colors = ["#DBD2EF", "#AF97E0", "#BEE48D", "#E0E0E0"];
 
@@ -20,7 +17,13 @@ const colors = ["#DBD2EF", "#AF97E0", "#BEE48D", "#E0E0E0"];
  *
  * @returns The Canvas component.
  */
-export const Canvas = ({ tree, openModal }) => {
+
+interface props {
+  tree: NodeEditor[];
+  openModal: Function;
+}
+
+export const Canvas = ({ tree, openModal }:props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [scale, setScale] = useState(1);
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
@@ -203,21 +206,6 @@ export const Canvas = ({ tree, openModal }) => {
     setTranslate({ x: 0, y: 0 });
   };
 
-  const handleEditorDidMount = (
-    editor: monaco.editor.IStandaloneCodeEditor,
-    index: number
-  ) => {
-    const fontSize = 12 * scale;
-    editor.updateOptions({
-      // zIndex: 1,
-      fontSize,
-      minimap: { enabled: false },
-    });
-    const updatedEditors = [...editors];
-    updatedEditors[index].editor = editor;
-    setEditors(updatedEditors);
-  };
-
   const handleFolderClick = (x: number, y: number, name: string) => {
     let region = regions.find((e) => e.name == name);
     setTranslate({ x: 0, y: -region!.y * scale });
@@ -284,6 +272,7 @@ export const Canvas = ({ tree, openModal }) => {
           cursor: isDragging ? "grabbing" : "grab",
           position: "absolute",
           zIndex: 2,
+          backgroundColor: "#000"
         }}
       />
 
