@@ -4,7 +4,7 @@ export interface FileNode {
   name: string;
   path: string;
   folders: string [];
-  children: { name: string, /*content: string;*/ }[];
+  children: { name: string, content: string; }[];
 }
 
 export interface NodeEditor {
@@ -22,3 +22,8 @@ export interface Message {
   message: string
   role: 'user' | 'assistant'
 }
+
+export interface Embedding {
+  content: string;
+  embedding: number[];
+};

@@ -6,12 +6,8 @@ import React, {
   MouseEvent,
   WheelEvent,
 } from "react";
-import { Editor } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
-import { tree } from "@/data";
 import { FileNode, NodeEditor } from "@/interfaces";
-import imageSrc from "../assets/your-image.png";
-import { Modal } from "./Modal";
 
 const colors = [
   "#1D1D1D",
@@ -49,7 +45,13 @@ const colors = [
  *
  * @returns The Canvas component.
  */
-export const Canvas = ({ tree, openModal }) => {
+
+interface props {
+  tree: NodeEditor[];
+  openModal: Function;
+}
+
+export const Canvas = ({ tree, openModal }: props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [scale, setScale] = useState(1);
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
@@ -298,6 +300,7 @@ export const Canvas = ({ tree, openModal }) => {
           cursor: isDragging ? "grabbing" : "grab",
           position: "absolute",
           zIndex: 2,
+          backgroundColor: "#000",
         }}
       />
 
@@ -387,17 +390,6 @@ export const Canvas = ({ tree, openModal }) => {
                 borderWidth: 5, // Agrega un borde de 1px
                 borderColor: "white",
               }}
-              /*
-              height="100%"
-              width="100%"
-              defaultLanguage="javascript"
-              defaultValue={editor.content}
-              theme="vs-dark"
-              options={{
-                readOnly: false,
-                minimap: { enabled: false }
-              }}
-              onMount={(editorInstance) => handleEditorDidMount(editorInstance, index)}*/
             >
               {editor.name}
             </button>

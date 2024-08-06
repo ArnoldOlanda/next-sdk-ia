@@ -5,15 +5,23 @@ import * as monaco from "monaco-editor";
 //import { NodeEditor } from "@/interfaces";
 //import { fileTree } from "@/data";
 
-const MyMonacoEditor = ({
+export const MyMonacoEditor = ({
   defaultValue,
-  selectedWord,
-  onWordClick,
   tree,
   setListaArchivos,
 }) => {
+  
   const editorRef = useRef(null);
   const [decorations, setDecorations] = useState([]);
+  const [selectedWord, setSelectedWord] = useState(null);
+
+  useEffect(() => {
+    if (editorRef.current) {
+      const model = editorRef.current.getModel();
+      model.setValue(defaultValue);
+    }
+  }, [defaultValue]);
+  
 
   useEffect(() => {
     if (editorRef.current) {
@@ -100,10 +108,7 @@ const MyMonacoEditor = ({
                 .map((line, index) => ({ line, lineNumber: index + 1 }))
                 .filter(({ line }) => line.includes(word));
 
-              results.push({
-                path: `${currentPath}/${node.name}/${child.name}`,
-                matches: matchingLines,
-              });
+              results.push(child);
             }
           }
         }
@@ -159,16 +164,9 @@ const MyMonacoEditor = ({
           const newSelectedWord = (prevWord) =>
             prevWord === clickedWord ? null : clickedWord;
 
-          onWordClick(newSelectedWord);
+          setSelectedWord(newSelectedWord);
 
           const foundResults = searchInFileTree(tree, clickedWord);
-          // Imprimir la palabra seleccionada y su estado de resaltado
-          foundResults.forEach((result) => {
-            console.log(`Path: ${result.path}`);
-            result.matches.forEach(({ line, lineNumber }) => {
-              console.log(`Line ${lineNumber}: ${line.trim()}`);
-            });
-          });
 
           setListaArchivos(foundResults);
         }
@@ -195,7 +193,5 @@ const MyMonacoEditor = ({
 MyMonacoEditor.propTypes = {
   defaultValue: PropTypes.string.isRequired,
   selectedWord: PropTypes.string,
-  onWordClick: PropTypes.func.isRequired,
+  setSelectedWord: PropTypes.func.isRequired,
 };
-
-export default MyMonacoEditor;

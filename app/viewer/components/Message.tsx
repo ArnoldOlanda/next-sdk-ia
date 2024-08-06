@@ -26,7 +26,7 @@ const Message = ({message}:Props) => {
                 {
                     typeof message.content === 'string' 
                         ? message.content 
-                        : JSON.stringify(message.content[0])
+                        : message.content[0].text
                 }
             </Markdown>
                 

@@ -1,21 +1,20 @@
-"use client";
-import { Canvas } from "@/components/Canvas";
-import React, { useState } from "react";
-import Chat from "./components/Chat";
-import { FileUpload } from "./components/UploadFiles";
-import { Modal } from "@/components/Modal";
-import { Editor } from "@monaco-editor/react";
-import { fileTree } from "@/data";
+'use client'
+import { Canvas } from '@/app/viewer/components/Canvas'
+import React, { useEffect, useState } from 'react'
+import Chat from './components/Chat'
+import { FileUpload } from './components/UploadFiles'
+import { Modal } from '@/app/viewer/components/Modal'
+import { FileNode } from '@/interfaces'
+
 
 export default function Viewer() {
-  const [tree, setTree] = useState(fileTree);
-  // fileTree
-  //([]])
-  const [editor, setEditor] = useState(false);
+  
+  const [tree, setTree] = useState([])
+  const [editor, setEditor] = useState<FileNode>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = (editorTmp) => {
+  const openModal = (editorTmp: FileNode) => {
     setEditor(editorTmp);
     setIsModalOpen(true);
   };
@@ -33,21 +32,16 @@ export default function Viewer() {
         overflow: "hidden",
       }}
     >
-      {tree.length > 0 ? (
+      {tree.length > 0 ? 
         <>
-          <Canvas tree={tree} openModal={openModal} />
-          <Chat />
-        </>
-      ) : (
+          <Canvas tree={tree} openModal={openModal}/>
+          <Chat tree={JSON.stringify(tree)}/>
+        </>:
         <FileUpload setTree={setTree} />
-      )}
-
-      <Modal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        editor={editor}
-        tree={tree}
-      />
+      }
+      
+      <Modal isOpen={isModalOpen} onClose={closeModal} editor={editor} tree={tree} setEditor={setEditor}/>
+      
     </div>
   );
 }
