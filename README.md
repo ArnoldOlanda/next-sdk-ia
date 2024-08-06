@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Matalopolis app
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/7096f002-c73c-490a-a9be-179002eaced1"/>
+</p>
 
-## Getting Started
 
-First, run the development server:
+## Visualizador de archivos y carpetas con asistencia de un chatbot para resolver dudas sobre el repositorio.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Este proyecto busca facilitar la comprensión de repositorios otorgando a los usuarios una disposición visual de archivos y carpetas, y ofreciendo un chatbot que resolverá dudas sobre el código interno. Nació con el propósito de ser una herramienta que explique de manera clara y accesible un proyecto/repositorio a diversos interesados, ya sean nuevos colaboradores que se unen a un equipo, personal no técnico en el área de IT que necesita entender el funcionamiento de un sistema, o simplemente alguien curioso sobre lo que se ha desarrollado.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ¿Cómo utilizarlo?
+### Carga de archivos
+Sube tu repositorio a Metalopolis app a través de un archivo .zip.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e7fed843-cf89-447c-8cd3-7ab47ea09be7" alt="Carga_de_datos"/>
+</p>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
+### Lienzo de archivos y carpetas
+Metalopolis app mostrará a través de filas la dispoción de archivos y carpetas, tu eliges por donde explorar!
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/9682ad22-d8ff-443f-9d6d-01fb612ada68"/>
+</p>
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/1d3a139e-6157-45e8-91fd-e177080a9f60"/>
+</p>
 
-## Learn More
+---
+### Chatbot asistente
+Al hacer click en un archivo, se mostrará el código que posee y un chatbot que podrá resolver dudas sobre el repositorio.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/9748e172-de3e-4d1c-869d-202589814c3d"/>
+</p>
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
+### Relaciones de componentes funcionales
+Al hacer click en un componente funcional o clase, se mostrará en que otros archivos fue llamada la instancia. 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/28b4b1e7-9d28-4ffc-bb10-36923bebf013"/>
+</p>
